@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[2]:
 
 
 import matplotlib.pyplot as plt
@@ -65,13 +65,39 @@ class experimentalAnalysis:
         entropy = -np.sum(probabilities * np.log2(probabilities + np.finfo(float).eps))
         return entropy
     
-    def noiceAttack(image):
+    def corAnalysisH(self,image):
+        ans = 0
+        for i in range(40):
+            ans = ans+np.corrcoef(image[i],image[i+1])[0][1]
+        ans = ans/(40)
+        return ans
+
+    def corAnalysisV(self,image):
+        ans=0
+        for j in range(40):
+            ans = ans + np.corrcoef(image[:,j],image[:,j+1])[0][1]
+        ans = ans/40
+        return ans
+
+    def corAnalysisD(self,matrix):
+        ans = 0
+        diagOne = []
+        diagTwo = []
+        for i in range(1,50):
+            for j in range(200):
+                diagOne.append(matrix[j][i+j])
+                diagTwo.append(matrix[j+i][j])
+            ans = ans + np.corrcoef(diagOne,diagTwo)[0][1]
+        ans = ans/30
+        return ans
+    
+    def noiceAttack(self,image):
         for i in range(0,100):
             for j in range(0,100):
                 image[i][j] = 0
         return image
     
-    def calculate_PSNR(original_image, cipher_image):
+    def calculate_PSNR(self,original_image, cipher_image):
         MSE=0
         m=n=256
         for i in range(0,m):
