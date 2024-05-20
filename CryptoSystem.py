@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[5]:
+# In[1]:
 
 
 import math
@@ -78,7 +78,7 @@ class Cryptosystem:
         IV = []
         for i in range(0, self.m):
             x1,y1 = self.twoDMCCM(a, b, x0, y0)
-            IV.append(abs(x1) * abs(y1) * ((pow(2,31)-1) % pow(2,pd)))
+            IV.append(round(abs(x1) * abs(y1) * ((pow(2,31)-1) % pow(2,pd))))
             x0 = x1
             y0 = y1
         return IV
@@ -172,7 +172,7 @@ class Cryptosystem:
     
 
 
-# In[12]:
+# In[2]:
 
 
 import cv2
@@ -201,7 +201,7 @@ class Encryption(Cryptosystem):
     def MixRows(self, image, IV):
         mixedImage = image.copy()
         for i in range(0,self.m):
-            mixedImage[i][1] = self.novelOperator(image[i][1],IV[i],257)
+            mixedImage[i][0] = self.novelOperator(image[i][0],IV[i],257)
             for j in range(1,self.n):
                 mixedImage[i][j] = self.novelOperator(image[i][j],mixedImage[i][j-1],257)
         return mixedImage
@@ -270,7 +270,8 @@ class Encryption(Cryptosystem):
                         y0 = x0 + N - eta
             return imgacmR.astype(np.uint8),imgacmG.astype(np.uint8),imgacmB.astype(np.uint8)
         
-    def Mixing(self, image):
+    def Mixing(self, img):
+        image = img.copy()
         m=self.m
         n=self.n
         for x in range(0,m):
@@ -405,7 +406,7 @@ class Encryption(Cryptosystem):
         return final.astype(np.uint8)
     
     def getFinalCipherImage(self,finalR,finalG,finalB):
-        rgb_image = np.dstack((finalB,finalG,finalR,))
+        rgb_image = np.dstack((finalR,finalG,finalB))
         plt.imshow(rgb_image)
         plt.show()
         return cv2.merge((finalB,finalG,finalR))
@@ -465,7 +466,7 @@ class Encryption(Cryptosystem):
         
 
 
-# In[13]:
+# In[3]:
 
 
 class Decryption(Encryption):
@@ -530,7 +531,8 @@ class Decryption(Encryption):
             x0, x1 = x1 - q * x0, x0
         return x1 + m0 if x1 < 0 else x1
 
-    def rMixing(self,image):
+    def rMixing(self,img):
+        image = img.copy()
         m=self.m
         n=self.n
         for y in range(n-1,-1,-1):
@@ -597,14 +599,10 @@ class Decryption(Encryption):
         n=self.n
         Dimg = image.copy()
         for i in range(m - 1, -1, -1):
-            for j in range(n - 1, 1, -1):
+            for j in range(n - 1, 0, -1):
                 Dimg[i][j] = self.reverseNovelOperator(image[i][j], image[i][j-1], 257)
-            Dimg[i][1] = self.reverseNovelOperator(image[i][1], IV[i], 257)
-
-        # The second column
-        for j in range(n - 1, -1, -1):
-            Dimg[j][1] = Dimg[j][0]
-        return Dimg.astype(np.uint8)
+            Dimg[i][0] = self.reverseNovelOperator(image[i][0], IV[i], 257)
+        return Dimg
     
     def getDecodedImage(self,dred,dgreen,dblue):
         super().getFinalCipherImage(dred,dgreen,dblue)
