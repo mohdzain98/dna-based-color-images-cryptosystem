@@ -2,9 +2,7 @@
 
 **Design of DNA Based Color Image Cryptosystem and its Security**
 
-**Analysis.**
-
-ARTICLE INFO
+**Analysis**
 
 ABSTRACT
 
@@ -468,7 +466,7 @@ maps are constructed using last values of previous
 
 maps.
 
-The operator ⊗ in paper[8] is given as
+The operator ⊗ in paper[9] is given as
 
 c ⊗ d = {(c + 1) × (d + 1)mod p} − 1
 
@@ -540,17 +538,23 @@ sclaed to the dimension of image in order to produce The channel are Inter Mixed
 
 the rule map. Modular operation is used to
 
-transform the precept, which are preferably selected 푅<sup>ꢅ = 푅</sup>
-
-⊗
-
-<sup>(</sup>G ⊗ B)퐺<sup>ꢅ</sup> = 퐺 <sup>ꢆ</sup>R<sup>′</sup> ⊗ Bꢇ퐵<sup>ꢅ</sup> = 퐵 <sup>ꢆ</sup>R<sup>′</sup> ⊗ G<sup>′</sup>ꢇ
-
-⊗
-
-⊗
+transform the precept, which are preferably selected
 
 from each dimension, to values between 1 and 8.
+
+푅<sup>ꢅ = 푅</sup>
+
+퐺<sup>ꢅ</sup> = 퐺 ⊗ ꢆR<sup>′</sup> ⊗ Bꢇ
+
+퐵<sup>ꢅ</sup> = 퐵 ⊗ ꢆR<sup>′</sup> ⊗ G<sup>′</sup>ꢇ
+
+⊗
+
+<sup>(</sup>G ⊗ B)
+
+Table 1
+
+DNA Encoding rules
 
 The value of the first element in each row is
 
@@ -560,19 +564,11 @@ following equation to skew the value in the
 
 neighbouring pixels:
 
-Table 1
-
-DNA Encoding rules
-
 Binary
 
 digits
 
 R1 R2 R3 R4 R5 R6 R7 R8
-
-퐼′ (g, h) = I(g, h) ⊗ I′ (g, h − 1);
-
-ℎ = 2, 3 … , 푛; ∀푔 ∈ {1, … , 푚}
 
 00
 
@@ -642,23 +638,23 @@ A
 
 11
 
+퐼′ (g, h) = I(g, h) ⊗ I′ (g, h − 1);
+
+{
+
+ℎ = 2, 3 … , 푛; ∀푔 ∈ 1, … , 푚}
+
+G
+
+C
+
 The process of inter channel mixrows will be applied
 
 on the image received after splitting color image into
 
 matrices i.e. R, G, B, respectively as.
 
-G
-
-C
-
 C) *DNA Substitution Map*
-
-푅′ = 푖푛푡푒푟푀푖푥(푟, 푔, 푏)
-
-퐺′ = 푖푛푡푒푟푀푖푥(푔, 푅<sup>ꢅ</sup>, 푏)
-
-퐵′ = 푖푛푡푒푟푀푖푥(푏, 푅<sup>ꢅ</sup>, 퐺′)
 
 Using the proposed operator ⊗, the DNA
 
@@ -678,11 +674,19 @@ correspond to. The instruction for constructing a
 
 DNA Substitution chart is described in paper[9].
 
+푅′ = 푖푛푡푒푟푀푖푥(푟, 푔, 푏)
+
+푖푛푡푒푟푀푖푥(푔, 푅<sup>ꢅ</sup>, 푏)
+
+퐵′ = 푖푛푡푒푟푀푖푥(푏, 푅<sup>ꢅ</sup>, 퐺′)
+
+퐺′ =
+
 푚푖푥푒푑퐼푚푎푔푒푅푒푑 = 푚푖푥푅표푤푠(푅<sup>ꢅ</sup>, 퐼푉
 
 푚푖푥푒푑퐼푚푎푔푒퐺푟푒푒푛 = 푚푖푥푅표푤푠(퐺<sup>ꢅ</sup>, 퐼푉
 
-푚푖푥푒푑퐼푚푎푔푒퐵푙푢푒 = 푚푖푥푅표푤푠(퐵<sup>ꢅ</sup>, 퐼푉)
+<sub>푚푖푥푒푑퐼푚푎푔푒퐵푙푢푒 = 푚푖푥푅표푤푠(퐵</sub>ꢅ<sub>, 퐼푉)</sub>
 
 )
 
@@ -710,21 +714,27 @@ The algorithm for mixrows is same as defined in
 
 paper[9]
 
-c)*Rectangular ACM*
-
 4
 
 
 
 <a name="br5"></a> 
 
-d) *Spiral Mixing*
+c)*Rectangular ACM*
+
+푖푚푎푔푒퐴퐶푀퐺 = 푎푝푝푙푦퐴퐶푀(푚푖푥푒푑퐼푚푎푔푒퐺푟푒푒푛
+
+)
+
+푖푚푎푔푒퐴퐶푀퐵 = 푎푝푝푙푦퐴퐶푀(푚푖푥푒푑퐼푚푎푔푒퐵푙푢푒)
 
 Arnold’s Cat Map(ACM)[10] is a disorganised chart
 
 that is used to rearrange the given image. When a 2D
 
-array has dimensions of N\*N, ACM is expressed as:
+array has dimensions of L\*L, ACM is expressed as:
+
+d) *Spiral Mixing*
 
 In order to prevent differential attacks on the image,
 
@@ -733,14 +743,6 @@ this stage job is to propagate the pixel’s value
 information throughout it in spiral manner. This
 
 procedure helps remove the image's visual
-
-information even if it doesn't require an encryption
-
-key. Let 푚 and 푛 represent the input image 퐼's row
-
-and column counts, respectively. There are four parts
-
-to the mixing step.
 
 푔′
 
@@ -762,17 +764,27 @@ to the mixing step.
 
 ꢉ
 
-(푚표푑 푁)
+(푚표푑 퐿)
 
-where g, h, g′, h′ ∈ [1, 푁]. (g, h) and (g′, h′)
+where g, h, g′, h′ ∈ [1, 푁]. (g, h) and (g′, h′) information even if it doesn't require an encryption
 
-represents, respectively, the original and scrambled
+represents, respectively, the original and scrambled key. Let and represent the input image 's row
 
-images' position indices. The drawback of employing
+푚
 
-directly ACM algorithm is that its definition is limited
+푛
+
+퐼
+
+images' position indices. The drawback of employing and column counts, respectively. There are four parts
+
+directly ACM algorithm is that its definition is limited to the mixing step.
 
 to identical size images. Nonetheless, uneven
+
+·
+
+Forward Spiral Row Mixing
 
 proportions are a regular occurrence in both natural
 
@@ -781,10 +793,6 @@ and medical imaging. The image is separated into
 minimal squares, and ACM is applied independently
 
 to each of them in order to fix this problem.
-
-·
-
-Forward Spiral Row Mixing
 
 The mixing is started from I[0,0] and goes to
 
@@ -858,7 +866,7 @@ Forward Column Mixing
 
 As forward row, in this step we move in
 
-column from M[0][0] to M[0][n]. The values
+column from im[0][0] to im[0][n]. The values
 
 of each element is propagated in the
 
@@ -872,10 +880,6 @@ operation on every matrix i.e. R, G, B, respectively as
 
 푖푚푎푔푒퐴퐶푀푅 = 푎푝푝푙푦퐴퐶푀(푚푖푥푒푑퐼푚푎푔푒푅푒푑)
 
-푖푚푎푔푒퐴퐶푀퐺 = 푎푝푝푙푦퐴퐶푀(푚푖푥푒푑퐼푚푎푔푒퐺푟푒푒푛)
-
-푖푚푎푔푒퐴퐶푀퐵 = 푎푝푝푙푦퐴퐶푀(푚푖푥푒푑퐼푚푎푔푒퐵푙푢푒)
-
 5
 
 
@@ -888,11 +892,9 @@ Backward Spiral Row Mixing
 
 Reverse spiral rows mixing is the reverse of
 
-rows mixing in which we start from M[m,n]
+rows mixing in which we start from ig[m,n]
 
-and go towards M[0,n]
-
-The values are operated with each other.
+and go towards ig[0,n]
 
 [a]
 
@@ -902,9 +904,11 @@ The values are operated with each other.
 
 [d]
 
+The values are operated with each other.
+
 **Figure:** a – d are the spiral mixing operations described
 
-ahead.
+earlier.
 
 e) *DNA Encoding*
 
@@ -932,23 +936,21 @@ the image received after mixing on every matrix i.e.
 
 R, G, B, respectively as
 
+푒푛푐표푑푒푑푅 = 푒푛푐표푑푖푛푔(푖푚푔푚푖푥푅)
+
+푒푛푐표푑푒푑퐺 = 푒푛푐표푑푖푛푔(푖푚푔푚푖푥퐺)
+
+푒푛푐표푑푒푑퐵 = 푒푛푐표푑푖푛푔(푖푚푔푚푖푥퐵)
+
 ·
 
 Backward Spiral Column Mixing
 
-In this step we go backward from M[m,n]
-
-푒푛푐표푑푒푑푅 = 푒푛푐표푑푖푛푔(푖푚푔푚푖푥푅)
+In this step we go backward from ig[m,n]
 
 towards zero in column way
 
-푒푛푐표푑푒푑퐺 = 푒푛푐표푑푖푛푔(푖푚푔푚푖푥퐺
-
-)
-
 The element value is propagated from the
-
-푒푛푐표푑푒푑퐵 = 푒푛푐표푑푖푛푔(푖푚푔푚푖푥퐵)
 
 very last value to the first value of the matrix
 
@@ -1038,7 +1040,7 @@ respectively as
 
 <a name="br7"></a> 
 
-The following represents the outcome of DNA operations that correspond to the various encoding rules:
+Table 2: DNA Substitution Rules
 
 A
 
@@ -1526,6 +1528,10 @@ DG Encoding
 
 DB
 
+*3*
+
+*ec*
+
 Reverse
 
 DNA
@@ -1574,25 +1580,23 @@ Image
 
 <a name="br8"></a> 
 
-*2.3.1 Decryption*
+After obtaining cipher image we proceed for its rows and reverse inter channel mixing. At last we
 
-apply reverse modified ACM followed by reverse mix
+decryption as on reciever side it needs to be again merge RGB into final decrypted image. The
 
-rows and reverse inter channel mixing. At last we
+decrypted. The encryption and decryption processes main point of decryption is to use the same key as it
 
-After obtaining cipher image we proceed for its again merge RGB into final decrypted image. The
+are inverted. The steps that are taken in last stages was used in encryption for getting 2D MCCM, initial
 
-decryption as on reciever side it needs to be main point of decryption is to use the same key as it
+will now be taken in initial stages as we move in vector, rules maps and DNA substitution map. The
 
-decrypted. The encryption and decryption processes was used in encryption for getting 2D MCCM, initial
-
-are inverted. The steps that are taken in last stages vector, rules maps and DNA substitution map. The
-
-will now be taken in initial stages as we move in
-
-reverse fashion. As presented in flow chart, we again
+reverse fashion. As presented in flow chart, we again steps are shown ahead.
 
 split the cipher images into R, G, B components and
+
+a) Splitting final crypted image into R for Red, G for
+
+Green and B for Blue components.
 
 applies DNA encoding. If we compare encyption and
 
@@ -1614,14 +1618,6 @@ it uses reverse substitution rules. After decoding we
 
 go for reverse spiral mixing which internally follows
 
-reverse fashion of mixing in encryption. Then we
-
-steps are shown ahead.
-
-a) Splitting final crypted image into R for Red, G for
-
-Green and B for Blue components.
-
 b) *DNA encoding*
 
 As a first step now DNA encoding is performed on
@@ -1632,11 +1628,13 @@ no change in the algorithm of encoding.
 
 c) *Reverse Substitution*
 
-For reverse substitution we define reverse encoding
+reverse fashion of mixing in encryption. Then we For reverse substitution we define reverse encoding
+
+apply reverse modified ACM followed by reverse mix
 
 rules between DNA nucleotides.
 
-Reverse Substitution Rules
+Table 3: Reverse Substitution Rules
 
 A
 
@@ -1677,6 +1675,14 @@ C
 A
 
 A
+
+A
+
+C
+
+G
+
+T
 
 C
 
@@ -1779,14 +1785,6 @@ T
 A
 
 G
-
-A
-
-C
-
-G
-
-T
 
 A
 
@@ -2170,7 +2168,7 @@ d)
 
 (8)
 
-**Fig 2.** The results of sensitivity of a key of (1) Lenna, (2) Baboon,
+**Fig 2.** The results of sensitivity of a key of (1) Fruit, (2) Baboon,
 
 (3) pepper and (4) Lake. (5) to (8) are decrypted images of
 
@@ -2184,7 +2182,9 @@ values are distributed. The histograms of the plain
 
 and encrypted images are present in Figure 3. It is
 
-evident that the cypher image's pixel values are
+**Figure 1.** Original, en-crypted & de-crypted image of a) Fruit evident that the cypher image's pixel values are
+
+b) baboon c) Pepper d) Lake
 
 consistently distributed throughout the interval [0,
 
@@ -2200,10 +2200,6 @@ statistically test the regularity of histograms.
 
 Mathematically, histogram variances are defined as :
 
-**Figure 1.** Original, en-crypted & de-crypted image of a) Lenna
-
-b) baboon c) Pepper d) Lake
-
 **3. Experimental Results and Analysis**
 
 Numerous colour images were encrypted, and the
@@ -2211,6 +2207,8 @@ Numerous colour images were encrypted, and the
 cipher image’s characteristics were examined in
 
 order to evaluate the cryptosystem's performance.
+
+*3.1 Space and Sensitivity of key*
 
 푚
 
@@ -2221,8 +2219,6 @@ order to evaluate the cryptosystem's performance.
 ∑
 
 (I(x, y) − μ)<sup>ꢋ</sup>
-
-*3.1 Space and Sensitivity of key*
 
 푥 = 1 푦 = 1
 
@@ -2270,7 +2266,7 @@ even in the event that there is a very slight shift in
 
 the input key. A small modification to the initial key
 
-will result in a unseen new decryption image for a 1.
+will result in a unseen new decryption image for a
 
 perfect encryption scheme. In our experiment, we
 
@@ -2283,6 +2279,8 @@ outcomes are displayed, along with the notable
 variations between the original (256 x 256) and
 
 decrypted images.[3]
+
+1\.
 
 2\.
 
@@ -2326,7 +2324,7 @@ that contains 푛 symbols, each with a chance of
 
 presence of 푝푖 as[16]
 
-**Figure 3. 1**) plain and cipher histogram of Lenna **2**) plain and
+**Figure 3. 1**) plain and cipher histogram of Fruit **2**) plain and
 
 cipher histogram of baboon **3**) plain and cipher histogram of
 
@@ -2468,15 +2466,9 @@ Blue
 
 ꢘꢛꢃ
 
-Lenna
+Fruit
 
-Baboon
-
-Pepper
-
-Lake
-
-267\.47 230.02
+258\.47 267.02
 
 232\.32 268.43
 
@@ -2484,13 +2476,19 @@ Lake
 
 257\.71 235.82
 
-270\.61
+268\.61
 
 267\.44
 
 246\.22
 
 272\.62
+
+Baboon
+
+Pepper
+
+Lake
 
 푛 푥
 
@@ -2538,15 +2536,9 @@ Green
 
 Blue
 
-Lenna
+Fruit
 
-Baboon
-
-Pepper
-
-Lake
-
-2412\.122 2757.27 1132.811
+3090\.122 3090.257 3909.811
 
 2889\.991 1972.825 3383.311
 
@@ -2554,13 +2546,19 @@ Lake
 
 1954\.858 2572.911 2548.812
 
-5464\.239 5429.818 5451.349
+5453\.239 5465.818 5475.349
 
 5459\.752 5444.902 5457.723
 
 5469\.795 5444.531 5485.011
 
 5469\.953 5498.777 5421.363
+
+Baboon
+
+Pepper
+
+Lake
 
 Table 6: Entropy of plain and cipher images
 
@@ -2582,15 +2580,9 @@ Red
 
 Green Blue
 
-Lenna
+Fruit
 
-Baboon
-
-Pepper
-
-Lake
-
-7\.268
+7\.552
 
 7\.683
 
@@ -2598,7 +2590,7 @@ Lake
 
 7\.331
 
-7\.597
+7\.337
 
 7\.381
 
@@ -2606,7 +2598,7 @@ Lake
 
 7\.626
 
-6\.971
+6\.745
 
 7\.682
 
@@ -2614,7 +2606,7 @@ Lake
 
 7\.341
 
-7\.9951
+7\.9971
 
 7\.9972
 
@@ -2622,13 +2614,19 @@ Lake
 
 7\.9971
 
-7\.9974 7.9969
+7\.9968 7.9974
 
 7\.9973 7.9971
 
 7\.9975 7.9972
 
 7\.9974 7.9973
+
+Baboon
+
+Pepper
+
+Lake
 
 *3.5 NPCR and UACI*
 
@@ -2664,15 +2662,9 @@ Red
 
 Green Blue
 
-Lenna
+Fruit
 
-Baboon
-
-Pepper
-
-Lake
-
-99\.6086
+99\.6386
 
 99\.6062
 
@@ -2680,13 +2672,19 @@ Lake
 
 99\.5994
 
-99\.6018 99.5924
+99\.6118 99.5724
 
 99\.6062 99.6154
 
 99\.5986 99.6121
 
 99\.5986 99.6185
+
+Baboon
+
+Pepper
+
+Lake
 
 Table 8: UACI of cipher images
 
@@ -2716,17 +2714,11 @@ Green Blue
 
 ∗ 100%
 
-Lenna
-
-Baboon
-
-Pepper
-
-Lake
+Fruit
 
 푚 ∗ 푛
 
-33\.4419
+33\.3419
 
 33\.3902
 
@@ -2734,7 +2726,7 @@ Lake
 
 33\.4693
 
-33\.3474 33.5046
+33\.4274 33.4146
 
 33\.4853 33.2344
 
@@ -2743,6 +2735,12 @@ Lake
 33\.3303 33.4835
 
 ꢞ,ꢌ
+
+Baboon
+
+Pepper
+
+Lake
 
 |푋(푢, 푣) − 푋<sup>ꢅ</sup>(푢, 푣)|
 
@@ -2760,7 +2758,7 @@ absolute value of t.
 
 *3.6 **P**eak **S**ignal to **N**oise **R**atio*
 
-In [13], the optimal settings for UACI and NPCR have **P**eak **S**ignal-to-**N**oise **R**atio (P.S.N.R) is a useful metric
+In [13], the optimal settings for UACI and NPCR have **P**eak **S**ignal 2 **N**oise **R**atio (P.S.N.R) is a useful metric
 
 been examined. The greatest value of Fmax for a for evaluating the effectiveness of a cryptosystem
 
@@ -2788,7 +2786,7 @@ decoding algorithm Dc and the same key to provide
 
 the decrypted *i*mage D = Dc(Z′, key). The PSNR is
 
-defined in Equation as follows[14] if the image has
+defined in Equation as follows[3,7] if the image has
 
 dimensions of m \* n and bit depth of p.
 
@@ -2802,15 +2800,9 @@ Red
 
 Green Blue
 
-Lenna
+Fruit
 
-Baboon
-
-Pepper
-
-Lake
-
-8\.27
+8\.23
 
 8\.76
 
@@ -2826,13 +2818,19 @@ Lake
 
 8\.81
 
-8\.22
+8\.21
 
 8\.72
 
 8\.76
 
-8\.8
+8\.82
+
+Baboon
+
+Pepper
+
+Lake
 
 (2<sup>ꢌ</sup> − 1)<sup>ꢋ</sup>
 
@@ -2914,7 +2912,11 @@ compare our values with theirs values.
 
 [d]
 
-**Figure-4.** Occlusion attack – [a] Original Lenna image, [b]
+**Figure-4.** Occlusion attack
+
+–
+
+[a] Original Fruit image, [b]
 
 encrypted image, [c] occlusion attack on encrypted image, and
 
@@ -2938,29 +2940,27 @@ Red
 
 Blue
 
-Lenna Horizontal
+Fruit Horizontal
 
 Vertical
 
-0\.9944 0.9979 0.9845 -0.0002 -0.0036 -0.0014
+0\.9844 0.9879 0.9545 -0.0018 -0.0067 -0.0064
 
-0\.9956 0.9935 0.9857
+0\.9856 0.9735 0.9857
 
-0\.9433 0.9268 0.8702
-
-0\.0002
-
-0\.0094
+0\.9433 0.9268 0.9402
 
 0\.0075
 
-0\.0668
+0\.0055
 
--0.0004
+0\.0018
 
--0.0064
+-0.0077
 
 Diagonal
+
+-0.0168 -0.0071
 
 Baboon Horizontal
 
@@ -3104,11 +3104,11 @@ using XOR
 
 using + -
 
-7\.997 7.997 7.996 99.608 99.601 99.592 33.443 33.347 33.506
+7\.997 7.996 7.997 99.638 99.618 99.572 33.342 33.427 33.414
 
-7\.997 7.996 7.996 48.416 48.416 48.428 17.39 17.38 17.38
+7\.997 7.996 7.996 51.416 51.416 51.428 18.39 18.38 18.38
 
-7\.997 7.997 7.996 96.432 99.182 99.424 33.401 33.421 33.405
+7\.997 7.997 7.996 93.432 98.182 99.424 33.401 33.421 33.405
 
 rgb color
 
