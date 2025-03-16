@@ -1,22 +1,18 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[2]:
-
-
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-
+import os
 from scipy.stats import chisquare
 
 class experimentalAnalysis:
-    def __init__(self, image):
+    def __init__(self, image, directory):
         self.m = image.shape[0]
         self.n = image.shape[1]
+        self.directory = directory
+        os.makedirs(self.directory, exist_ok=True)  # Ensure directory exists
         print('m,n:',self.m,self.n)
         
-    def plotHistogram(self,red,green,blue,bins):
+    def plotHistogram(self,red,green,blue,bins, name="histogram"):
         fig=plt.figure(figsize=(4, 3))
         values = red.flatten()
         plt.hist(values, bins=bins, color='red', alpha=0.6)  # Adjust the number of bins as needed
@@ -26,7 +22,11 @@ class experimentalAnalysis:
         plt.hist(values, bins=bins, color='blue', alpha=0.6) 
         plt.xlabel('Value')
         plt.ylabel('Frequency')
-        plt.title('Histogram of the Original Image')
+        title = "Histogram of the Original Image" if name == "org_img_histogram" else "Histogram of the Cipher Image"
+        plt.title(title)
+        file_path = os.path.join(self.directory, f"{name}.png")
+        plt.savefig(file_path, dpi=300, bbox_inches='tight')
+        print(f"Histogram saved successfully at {file_path}")
         plt.show()
         
     def calMean(self,image):
@@ -109,10 +109,5 @@ class experimentalAnalysis:
         # Calculate PSNR in decibels
         PSNR = 10 * math.log10((255*255)/MSE)
         return PSNR
-
-
-# In[ ]:
-
-
 
 
