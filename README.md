@@ -89,3 +89,7 @@ Contributions are welcome! Feel free to fork the repo, open issues, and submit p
 ## Acknowledgements
 
 Special thanks to researchers in cryptography whose work inspired this research.
+
+## Detailed Outputs
+
+See various metrics output values <a href="https://mohdzain.com/blogs/color-images-cryptosystem" target="_blank" >here</a>
