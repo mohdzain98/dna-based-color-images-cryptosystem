@@ -58,7 +58,7 @@ Reverse of Encryption procedure.
 2. Create Virtual Environment
 
    ```bash
-   python -m veny venv_name
+   python -m venv venv_name
 
    ```
 
