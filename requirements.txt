@@ -1,7 +1,10 @@
 jupyter
 ipykernel
 opencv-python
-numpy==1.23.5
+nistrng
+termcolor
+numpy==1.25.2
 pandas==2.1.0
 scipy==1.10.1
 matplotlib==3.9.0
+numba==0.61.2
