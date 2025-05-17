@@ -1,0 +1,6 @@
+image,intermix,mix_rows,spiral_mixing,ACM,encoding,substitution,decoding,total_time,size
+all_zero_image,1.05,0.58,2.15,0.24,0.39,1.9,0.27,6.58,256.0
+all_white_image,4.2,2.13,8.47,0.99,1.19,7.82,1.01,26.22,512.0
+fruits,1.11,0.53,2.18,0.25,0.28,1.97,0.26,6.58,256.0
+fruits512,4.18,2.16,8.32,1.11,1.28,7.83,1.04,25.92,512.0
+fruits1024,16.65,8.43,33.39,5.31,4.9,30.67,4.1,103.45,1024.0
