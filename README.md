@@ -2,7 +2,7 @@
 
 ## Introduction
 
-DNA based color images refer to the encoding of the color images into DNA sequences called as DNA computing.  
+DNA based color images refer to the encoding of the color images into DNA sequences called as DNA computing.
 The basic idea behind DNA computing is that DNA can be used to store and process information in a way that is similar to how a computer uses binary digits (bits) to represent data.
 Instead of representing images using traditional pixel values the image data is converted into a sequence of DNA nucleotides(Adenine-A, Thymine-T, Cytosine-C and Guanine-G).
 For each color channel i.e. RGB of pixel might be represented by a certain DNA bases or combination of bases.
@@ -79,8 +79,40 @@ Reverse of Encryption procedure.
    ```
 
 4. Running the cryptosystem
-   - Select images from images/image and Start running cryptosystem.ipynb
-   - At the end you will find all results saved in your folders
+   - Notebooks: open `notebooks/cryptosystem.ipynb`, select an image from `images/` and run all cells. Results are saved under `outputs/`.
+   - Command line:
+
+     ```bash
+     python -m src encrypt images/fruits.jpg -o outputs/fruits_cipher.png   # writes outputs/fruits_cipher.key
+     python -m src decrypt outputs/fruits_cipher.png -k outputs/fruits_cipher.key -o fruits_decrypted.png
+     ```
+
+5. Running the tests
+
+   ```bash
+   pytest
+   ```
+
+## Project Structure
+
+```
+├── src/
+│   ├── cryptosystem.py        # Cryptosystem, Encryption, Decryption
+│   ├── pipeline.py            # key -> parameters, encrypt_image / decrypt_image
+│   ├── __main__.py            # CLI (python -m src)
+│   ├── logger.py              # shared logging (DNA_DEBUG, DNA_PRINT_ENABLED)
+│   └── analysis/
+│       ├── metrics.py         # histogram, entropy, chi-square, correlation, PSNR
+│       ├── differential.py    # NPCR, UACI
+│       ├── nist.py            # NIST SP 800-22 randomness tests
+│       ├── chaos.py           # 2D-MCCM bifurcation, phase, Lyapunov
+│       └── performance.py     # encryption speed and cycles per byte
+├── notebooks/                 # experiments and result generation
+├── tests/                     # pytest suite
+├── scripts/lang_stats.py      # Python vs notebook share of the repo
+├── images/  outputs/
+└── pyproject.toml
+```
 
 ## Contributing
 
