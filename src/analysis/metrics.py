@@ -1,10 +1,10 @@
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
-import os
-from scipy.stats import chisquare
 import math
+import os
+
+import matplotlib.pyplot as plt
+import numpy as np
 from numba import njit
+from scipy.stats import chisquare
 
 from src.logger import AppLogger
 
@@ -28,7 +28,7 @@ class experimentalAnalysis:
         logger.info("m,n: %s %s", self.m, self.n)
 
     def plotHistogram(self, red, green, blue, bins, name="histogram"):
-        fig = plt.figure(figsize=(4, 3))
+        plt.figure(figsize=(4, 3))
         values = red.flatten()
         plt.hist(
             values, bins=bins, color="red", alpha=0.6

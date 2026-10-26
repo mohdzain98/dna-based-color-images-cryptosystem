@@ -1,12 +1,13 @@
+import hashlib
+import hmac
+import math
+import secrets
+from decimal import Decimal, getcontext
+
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import math
-import secrets
-import hashlib
-import hmac
-from decimal import Decimal, getcontext
 from numba import njit
 
 from src.logger import AppLogger
@@ -202,7 +203,6 @@ class Cryptosystem:
                 Xpos, Ypos = Map[i]
                 U = abs(Xpos) * abs(Ypos) * ((pow(2, 31) - 1) % pow(2, pd))
                 bVal = self.binaryEquivalent(U, pd)  # binary equivalent of U in p bit
-                lst = []
                 for k in range(0, len(bVal), 2):
                     str = bVal[k] + bVal[k + 1]
                     lit = self.EncodingRules.get(str)
@@ -323,9 +323,6 @@ class Encryption(Cryptosystem):
         return image
 
     def InterMix(self, red, gr, bl):
-        m = self.m
-        n = self.n
-        imd = np.ones((m, n))
         im1 = red.copy()
         im2 = gr.copy()
         im3 = bl.copy()
@@ -438,7 +435,6 @@ class Encryption(Cryptosystem):
             eta = math.floor(L / alpha)
 
         k = self.largest_prime_before(int(N / 2))
-        x0, y0 = 0, 0
 
         logger.info(
             "m= {}, n= {},\nN(length of side) = {},\nalpha(number of squares) = {},\n"
@@ -565,7 +561,6 @@ class Encryption(Cryptosystem):
         return br
 
     def Encoding(self, image, RM):
-        m = self.m
         n = self.n
         encodedImage = []
         for x in range(0, len(image)):
@@ -1155,9 +1150,6 @@ class Decryption(Encryption):
         return Dimg
 
     def rinterMix(self, im1d, im2d, im3d):
-        m = self.m
-        n = self.n
-        rim = np.ones((m, n))
         brack = self.applyOperator(im2d, im3d)
         rim1 = self.applyRevOpr(im1d, brack)
         #         rim = self.applyRevOpr(rim1,cm)
