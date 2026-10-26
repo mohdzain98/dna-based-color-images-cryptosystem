@@ -9,12 +9,16 @@ import hmac
 from decimal import Decimal, getcontext
 from numba import njit
 
+from src.logger import AppLogger
+
+logger = AppLogger.get_logger(__name__)
+
 
 class Cryptosystem:
     def __init__(self, image):
         self.m = image.shape[0]
         self.n = image.shape[1]
-        print("m,n:", self.m, self.n)
+        logger.info("m,n: %s %s", self.m, self.n)
 
     def generate_symmetric_key(self, key_length_bits):
         random_bytes = secrets.token_bytes(
@@ -37,11 +41,13 @@ class Cryptosystem:
             symmetric_key, salt, info, length // 8
         )  # Convert bits to bytes
         secure_key = final_symmetric_key.hex()
-        print(
-            "Symmetric Key (hexadecimal):", secure_key, "with length:", len(secure_key)
+        logger.debug(
+            "Symmetric Key (hexadecimal): %s with length: %d",
+            secure_key,
+            len(secure_key),
         )
         binary_key = bin(int(secure_key, 16))[2:]
-        print("binary key: \n", binary_key, "\n length of key:", len(binary_key))
+        logger.debug("binary key: %s (length %d)", binary_key, len(binary_key))
         return binary_key
 
     def generateInitials(self, binary_key):
@@ -136,8 +142,7 @@ class Cryptosystem:
         myKeys.sort()
         sorted_dict = {i: freq[i] for i in myKeys}
 
-        print("No of times rule present in rule map")
-        print(sorted_dict)
+        logger.info("No of times rule present in rule map: %s", sorted_dict)
 
     def getRuleMap(self, Map, pd):
         newp = (int)(pd / 4)
@@ -186,8 +191,7 @@ class Cryptosystem:
                 all_freq[x] += 1
             else:
                 all_freq[x] = 1
-        print("No of times Neucleotides present in DSMap")
-        print(all_freq)
+        logger.info("No of times Neucleotides present in DSMap: %s", all_freq)
 
     def getDSMMap(self, Map, RM):
         DSM = []
@@ -213,7 +217,7 @@ class Cryptosystem:
             for j in range(self.n):
                 if im1[i][j] != im2[i][j]:
                     p = p + 1
-        print("The difference in pixels of the two images is ", p)
+        logger.info("The difference in pixels of the two images is %d", p)
 
 
 @njit
@@ -301,7 +305,7 @@ class Encryption(Cryptosystem):
 
     def matrices(self):
         rgb_image = np.dstack((self.red, self.green, self.blue))
-        print("Displaying the pixel matrices over the Image")
+        logger.info("Displaying the pixel matrices over the Image")
         plt.imshow(rgb_image)
         plt.show()
         return self.red, self.green, self.blue
@@ -375,7 +379,7 @@ class Encryption(Cryptosystem):
             eta = math.floor(L / (alpha))
         k = self.largest_prime_before(int(N / 2))
         x0, y0 = 0, 0
-        print(
+        logger.info(
             "m= {}, n= {},\nN(length of side) = {},\nalpha(number of squares) = {},\n"
             "L(an extra length) = {},\neta(length of overlapping except last) = {}, k = {}.".format(
                 m, n, N, alpha, max(m, n) - L, eta, k
@@ -387,7 +391,7 @@ class Encryption(Cryptosystem):
         imgacmB = mixedImageB.copy()
         for i in range(0, alpha):
             for x in range(k):
-                print(x, end=" ")
+                logger.debug("ACM round %d", x)
                 for a in range(x0, x0 + N - 1):
                     for b in range(y0, y0 + N - 1):
                         o, p = self.ACM(a, b, N)
@@ -421,7 +425,7 @@ class Encryption(Cryptosystem):
             )
 
     def applyACM_numba(self, mixedImageR, mixedImageG, mixedImageB):
-        print("Applying ACM 2.0...")
+        logger.info("Applying ACM 2.0...")
         m = self.m
         n = self.n
         N = min(m, n)
@@ -436,7 +440,7 @@ class Encryption(Cryptosystem):
         k = self.largest_prime_before(int(N / 2))
         x0, y0 = 0, 0
 
-        print(
+        logger.info(
             "m= {}, n= {},\nN(length of side) = {},\nalpha(number of squares) = {},\n"
             "L(an extra length) = {},\neta(length of overlapping except last) = {}, k = {}.".format(
                 m, n, N, alpha, max(m, n) - L, eta, k
@@ -776,20 +780,20 @@ class Encryption(Cryptosystem):
 
     def applyEncryption(self, image, IV, rm1, rm3, rm4, dsm):
         b, g, r = cv2.split(image)
-        print("Applying Algorithm Steps one by one\n")
-        print("Steps 1: Inter channel Mixing\n")
+        logger.info("Applying Algorithm Steps one by one")
+        logger.info("Steps 1: Inter channel Mixing")
         mR, mG, mB = self.interMix(r, g, b)
-        print("Step 2: applying Mixrows\n")
+        logger.info("Step 2: applying Mixrows")
         mrR, mrG, mrB = self.mixRows(mR, mG, mB, IV)
-        print("Step 3: applying ACM algorithm\n")
+        logger.info("Step 3: applying ACM algorithm")
         acmR, acmG, acmB = self.applyACM_numba(mrR, mrG, mrB)
-        print("\nStep 4: applying spiral mixing \n")
+        logger.info("Step 4: applying spiral mixing")
         mixR, mixG, mixB = self.spiralMixing(acmR, acmG, acmB)
-        print("Step 5: applying Encoding\n")
+        logger.info("Step 5: applying Encoding")
         encR, encG, encB = self.encoding(mixR, mixG, mixB, rm1)
-        print("Step 6: applying Substitution\n")
+        logger.info("Step 6: applying Substitution")
         subR, subG, subB = self.substitution(encR, encG, encB, dsm, rm3)
-        print("Step 7: applying Decoding")
+        logger.info("Step 7: applying Decoding")
         decR, decG, decB = self.decoding(subR, subG, subB, rm4)
         finalR = self.toMatrix(decR)
         finalG = self.toMatrix(decG)
@@ -912,8 +916,8 @@ class Decryption(Encryption):
 
     def reverseNovelOperator(self, result, bb, par):
         if (bb + 1) % par == 0:
-            print(
-                f"ERROR: Trying to compute modinv({bb + 1}, {par}), which does not exist. at {result}"
+            logger.error(
+                f"Trying to compute modinv({bb + 1}, {par}), which does not exist. at {result}"
             )
             return result
 
@@ -1050,7 +1054,7 @@ class Decryption(Encryption):
             eta = math.floor(L / (alpha))
         k = self.largest_prime_before(int(N / 2))
         x0, y0 = 0, 0
-        print(
+        logger.info(
             "m= {}, n= {},\nN(length of side) = {},\nalpha(number of squares) = {},\n"
             "L(an extra length) = {},\neta(length of overlapping except last) = {}, k = {}.".format(
                 m, n, N, alpha, max(m, n) - L, eta, k
@@ -1062,7 +1066,7 @@ class Decryption(Encryption):
         imgacmB = ImageB.copy()
         for i in range(0, alpha):
             for x in range(k):
-                print(x, end=" ")
+                logger.debug("ACM round %d", x)
                 for a in range(x0 + N - 2, x0 - 1, -1):
                     for b in range(y0 + N - 2, y0 - 1, -1):
                         o, p = self.ACM(a, b, N)
@@ -1107,7 +1111,7 @@ class Decryption(Encryption):
             eta = math.floor(L / (alpha))
         k = self.largest_prime_before(int(N / 2))
 
-        print(
+        logger.info(
             "m= {}, n= {},\nN(length of side) = {},\nalpha(number of squares) = {},\n"
             "L(an extra length) = {},\neta(length of overlapping except last) = {}, k = {}.".format(
                 m, n, N, alpha, max(m, n) - L, eta, k
@@ -1188,24 +1192,24 @@ class Decryption(Encryption):
         return rrev, grev, brev
 
     def applyDecryption(self, image, IV, rm1, rm3, rm4, dsm):
-        print("Applying Decryption Algorithm on provided image\n")
+        logger.info("Applying Decryption Algorithm on provided image")
         b, g, r = cv2.split(image)
-        print("Step 1: applying Encoding\n")
+        logger.info("Step 1: applying Encoding")
         enR, enG, enB = self.encoding(r, g, b, rm4)
-        print("Step 2: applying Reverse Substitution\n")
+        logger.info("Step 2: applying Reverse Substitution")
         rsR, rsG, rsB = self.revSubstitution(enR, enG, enB, dsm, rm3)
-        print("Step 3: applying Decoding\n")
+        logger.info("Step 3: applying Decoding")
         dcR, dcG, dcB = self.decoding(rsR, rsG, rsB, rm1)
         fred = self.toMatrix(dcR)
         fgreen = self.toMatrix(dcG)
         fblue = self.toMatrix(dcB)
-        print("Step 4: applying reverse spiral mixing\n")
+        logger.info("Step 4: applying reverse spiral mixing")
         mixR, mixG, mixB = self.revSpiralMixing(fred, fgreen, fblue)
-        print("Step 5: applying reverse ACM algorithm\n")
+        logger.info("Step 5: applying reverse ACM algorithm")
         acmR, acmG, acmB = self.applyRevACM_numba(mixR, mixG, mixB)
-        print("\nStep 6: applying reverse mixrows\n")
+        logger.info("Step 6: applying reverse mixrows")
         mrr, mrg, mrb = self.revmixRows(acmR, acmG, acmB, IV)
-        print("\nStep 7: applying reverse Intermix\n")
+        logger.info("Step 7: applying reverse Intermix")
         mrR, mrG, mrB = self.revInterMix(mrr, mrg, mrb)
         decodedImage = self.getDecodedImage(mrR, mrG, mrB)
         return decodedImage

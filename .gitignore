@@ -4,3 +4,7 @@ data.zip
 data/
 .DS_Store
 .venv
+docs
+logs/
+.pytest_cache/
+.ruff_cache/

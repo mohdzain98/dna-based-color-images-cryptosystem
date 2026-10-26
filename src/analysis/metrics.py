@@ -6,6 +6,10 @@ from scipy.stats import chisquare
 import math
 from numba import njit
 
+from src.logger import AppLogger
+
+logger = AppLogger.get_logger(__name__)
+
 
 @njit
 def fast_variance(image):
@@ -21,7 +25,7 @@ class experimentalAnalysis:
         self.n = image.shape[1]
         self.directory = directory
         os.makedirs(self.directory, exist_ok=True)  # Ensure directory exists
-        print("m,n:", self.m, self.n)
+        logger.info("m,n: %s %s", self.m, self.n)
 
     def plotHistogram(self, red, green, blue, bins, name="histogram"):
         fig = plt.figure(figsize=(4, 3))
@@ -43,7 +47,7 @@ class experimentalAnalysis:
         plt.title(title)
         file_path = os.path.join(self.directory, f"{name}.png")
         plt.savefig(file_path, dpi=300, bbox_inches="tight")
-        print(f"Histogram saved successfully at {file_path}")
+        logger.info("Histogram saved successfully at %s", file_path)
         plt.show()
 
     def calMean(self, image):
@@ -119,14 +123,9 @@ class experimentalAnalysis:
         return image
 
     def calculate_PSNR(self, original_image, cipher_image):
-        MSE = 0
-        m = n = 256
-        for i in range(0, m):
-            row = 0
-            for j in range(0, n):
-                row = row + ((original_image[i][j] - cipher_image[i][j]) ** 2)
-            MSE = MSE + row
-        MSE = MSE / (m * n)
-        # Calculate PSNR in decibels
-        PSNR = 10 * math.log10((255 * 255) / MSE)
-        return PSNR
+        """Return PSNR in dB between two images of identical shape."""
+        diff = original_image.astype(np.float64) - cipher_image.astype(np.float64)
+        mse = np.mean(diff**2)
+        if mse == 0:
+            return math.inf
+        return 10 * math.log10((255 * 255) / mse)
